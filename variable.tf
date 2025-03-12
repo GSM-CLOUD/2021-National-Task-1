@@ -10,34 +10,11 @@ variable "prefix" {
   default = "wsi"
 }
 
-variable "bucket_custom_prefix" {
-  default = "gsm9"
+variable "bucket_frontend_name" {
+  default = "wsi-99-gsm9-web-static"
 }
 
-variable "cluster_name" {
-  default = "skills-ecs-cluster"
+variable "bucket_backend_name" {
+  default = "wsi-99-gsm9-artifactory"
 }
 
-variable "service_name" {
-  default = "backend"
-}
-
-variable "container_port" {
-  default = 8080
-}
-
-variable "ecs_task_execution_role_name" {
-    default = "skills-ecs-ecsTaskExecutionRole"
-}
-
-variable "task_definition_name" {
-  default = "skills-task-definition"
-}
-
-variable "container_name" {
-  default = "backend"
-}
-
-variable "default_branch" {
-  default = "main"
-}
