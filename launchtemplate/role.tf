@@ -24,7 +24,12 @@ resource "aws_iam_role_policy_attachment" "cw_agent_server_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
-resource "aws_iam_instance_profile" "bastion_instance_profile" {
+resource "aws_iam_role_policy_attachment" "cw_full_access_policy_attachment" {
+  role       = aws_iam_role.web_api_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_instance_profile" "web_api_profile" {
   name = "${var.prefix}-web-api-profile"
   role = aws_iam_role.web_api_role.name
 }
