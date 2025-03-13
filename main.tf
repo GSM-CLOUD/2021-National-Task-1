@@ -61,3 +61,20 @@ module "asg" {
 
   depends_on = [ module.launch_template ]
 }
+
+module "cloudfront" {
+  source = "./cloudfront"
+  prefix = var.prefix
+  s3_bucket_dns_name = module.s3.bucket_dns_name
+  s3_bucket_name = module.s3.bucket_frontend_name
+  alb_dns_name = module.alb.alb_dns_name
+
+  depends_on = [ module.asg ]
+}
+
+module "dashboard" {
+  source = "./dashboard"
+  alb_arn = module.alb.alb_arn
+
+  depends_on = [ module.cloudfront ]
+}
