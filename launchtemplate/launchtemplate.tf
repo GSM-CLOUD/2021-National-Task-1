@@ -3,17 +3,15 @@ resource "aws_launch_template" "web_api_launch_template" {
   image_id = var.aws_ami
   instance_type = "t3.small"
   key_name = var.key_name
+  iam_instance_profile {
+    name = aws_iam_instance_profile.web_api_profile.name
+  }
 
   user_data = base64encode(<<EOF
 #!/bin/bash
 sudo su
-set -e
-set -x
 
 echo "complete"
-yum install -y docker
-systemctl enable docker
-systemctl restart docker
 yum install python3 pip -y
 pip3 install flask
 
@@ -23,10 +21,6 @@ aws s3 cp s3://${var.bucket_backend_name}/app.py .
 echo "complete"
 mkdir -p /var/log/app
 chmod 777 /var/log/app
-
-echo "complete"
-nohup python3 app.py &
-curl localhost:8080/health
 
 echo "complete"
 yum install -y amazon-cloudwatch-agent
@@ -63,6 +57,8 @@ sudo systemctl start amazon-cloudwatch-agent
 sudo systemctl restart amazon-cloudwatch-agent
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') Test log message" | sudo tee -a /var/log/app/app.log
+
+nohup python3 app.py &
 EOF
 )
 
