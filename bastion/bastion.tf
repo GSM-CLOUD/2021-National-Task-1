@@ -22,25 +22,7 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
   key_name = aws_key_pair.bastion-key-pair.key_name
   iam_instance_profile = aws_iam_instance_profile.bastion_instance_profile.name
-
-  user_data = <<-EOF
-#!/bin/bash
-sudo su
-set -e
-set -x
-
-echo "complete"
-yum install -y docker
-systemctl enable docker
-systemctl restart docker
-
-echo "complete"
-aws s3 cp s3://${var.bucket_backend_name}/app.py .
-
-EOF
-
-
-
+  
   tags = {
     "Name" = "${var.prefix}-bastion-ec2"
   }
