@@ -18,3 +18,10 @@ variable "bucket_backend_name" {
   default = "wsi-99-gsm9-artifactory"
 }
 
+variable "log_group_name" {
+  default = "/aws/ec2/wsi"
+}
+
+variable "log_group_path" {
+  default = "/var/log/app/app.log"
+}
